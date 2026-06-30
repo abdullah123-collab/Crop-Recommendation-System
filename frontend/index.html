@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Crop Advisor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero-panel">
+      <div class="hero-copy">
+        <span class="hero-badge">AI Crop Advisor</span>
+        <h1>Smart Crop Recommendation Using Machine Learning</h1>
+        <p>Build confidence in every crop decision with a refined crop advisor interface designed for modern agriculture and internship portfolios.</p>
+      </div>
+      <div class="hero-illustration" aria-hidden="true">
+        <div class="icon-circle">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M32 58c5.523 0 10-4.477 10-10v-8h-8v8a2 2 0 0 1-4 0v-8h-8v8c0 5.523 4.477 10 10 10Z" />
+            <path d="M42 18c0 5.523-4.477 10-10 10S22 23.523 22 18s4.477-10 10-10 10 4.477 10 10Z" />
+            <path d="M14 36c8-10 18-12 24-12M50 36c-8-10-18-12-24-12" />
+            <path d="M14 46c0-10 9-16 18-18 9 2 18 8 18 18" />
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="input-grid">
+        <div class="card card-panel">
+          <div class="card-header">
+            <h2>Soil Information</h2>
+            <p>Essential soil nutrients for better crop guidance.</p>
+          </div>
+          <div class="field-row">
+            <label for="nitrogen">Nitrogen (N)</label>
+            <input id="nitrogen" type="number" value="48" min="0" max="150" step="0.5" />
+          </div>
+          <div class="field-row">
+            <label for="phosphorus">Phosphorus (P)</label>
+            <input id="phosphorus" type="number" value="34" min="0" max="150" step="0.5" />
+          </div>
+          <div class="field-row">
+            <label for="potassium">Potassium (K)</label>
+            <input id="potassium" type="number" value="42" min="0" max="150" step="0.5" />
+          </div>
+          <div class="field-row">
+            <label for="ph">pH Level</label>
+            <input id="ph" type="number" value="6.7" min="0" max="14" step="0.1" />
+          </div>
+        </div>
+
+        <div class="card card-panel">
+          <div class="card-header">
+            <h2>Weather Information</h2>
+            <p>Climate metrics that influence crop selection.</p>
+          </div>
+          <div class="field-row">
+            <label for="temperature">Temperature</label>
+            <input id="temperature" type="number" value="28" min="-10" max="50" step="0.5" />
+          </div>
+          <div class="field-row">
+            <label for="humidity">Humidity</label>
+            <input id="humidity" type="number" value="72" min="0" max="100" step="1" />
+          </div>
+          <div class="field-row">
+            <label for="rainfall">Rainfall</label>
+            <input id="rainfall" type="number" value="85" min="0" max="400" step="1" />
+          </div>
+        </div>
+      </section>
+
+      <section class="action-panel">
+        <button class="predict-button" type="button">Predict Best Crop</button>
+      </section>
+
+      <p class="status-text"></p>
+
+      <section class="stats-row">
+        <div class="stat-card">
+          <span class="stat-value">92.4%</span>
+          <p>Model Accuracy</p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">22</span>
+          <p>Crop Classes</p>
+        </div>
+      </section>
+
+      <section class="result-card card">
+        <div class="result-header">
+          <div>
+            <p class="label">Recommended Crop</p>
+            <h3 class="result-title">Wheat</h3>
+          </div>
+          <div class="confidence-pill"><span class="confidence-value">92%</span></div>
+        </div>
+
+        <div class="result-detail">
+          <p class="result-copy result-description">This recommendation is based on your soil nutrient profile and weather conditions.</p>
+          <div class="top-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>
