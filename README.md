@@ -1,6 +1,6 @@
 # AI Crop Advisor
 
-AI Crop Advisor is a polished FastAPI application that recommends the best crop based on soil and weather features. The project now uses a cleaner separation between the backend, frontend, data, models, and supporting scripts.
+AI Crop Advisor is a FastAPI application that serves a Gradio-based crop recommendation interface. The project keeps the existing machine learning pipeline and trained model artifacts while exposing them through a polished UI and a production-ready API.
 
 ## 📁 Project Structure
 
@@ -11,27 +11,19 @@ crop_recommendation_project/
 │   └── utils/
 │       ├── fertilizer.py
 │       └── weather.py
-├── frontend/
-│   ├── index.html
-│   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   │   └── script.js
-│   └── assets/
+├── data/
+│   └── tabular/
+│       └── Crop_recommendation.csv
 ├── models/
 │   └── crop_rec/
 │       ├── crop_model.pkl
 │       ├── scaler.pkl
 │       └── label_encoder.pkl
-├── data/
-│   └── tabular/
-│       └── Crop_recommendation.csv
 ├── scripts/
 │   ├── train_model.py
 │   ├── generate_assets.py
 │   └── notebooks/
 │       └── model.ipynb
-├── legacy_streamlit/
 ├── Dockerfile
 ├── requirements.txt
 └── README.md
@@ -44,13 +36,17 @@ crop_recommendation_project/
    ```bash
    pip install -r requirements.txt
    ```
-3. Start the FastAPI app:
+3. Start the app:
    ```bash
    uvicorn backend.main:app --reload --host 0.0.0.0 --port 7860
    ```
-4. Open the UI at:
+4. Open the Gradio UI at:
    ```bash
-   http://127.0.0.1:7860
+   http://127.0.0.1:7860/
+   ```
+5. The prediction API remains available at:
+   ```bash
+   http://127.0.0.1:7860/api/predict
    ```
 
 ## 🧠 Train or Update the Model
@@ -73,4 +69,12 @@ docker build -t ai-crop-advisor .
 Run locally:
 ```bash
 docker run -p 7860:7860 ai-crop-advisor
+```
+
+## ☁️ Hugging Face Spaces
+
+This repository is ready for a Docker-based Hugging Face Space. Use the existing Dockerfile and requirements, then deploy with the command:
+
+```bash
+uvicorn backend.main:app --host 0.0.0.0 --port 7860
 ```
