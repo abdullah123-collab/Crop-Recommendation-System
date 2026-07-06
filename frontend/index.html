@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Page metadata and external styling -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="AI Crop Advisor — a polished crop recommendation experience built with pure HTML, CSS, and JavaScript."
+    />
+    <title>AI Crop Advisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <!-- Top navigation with brand and theme toggle -->
+      <header class="topbar">
+        <nav class="nav container" aria-label="Main navigation">
+          <a href="#hero" class="brand" aria-label="AI Crop Advisor home">
+            <span class="brand-mark">🌾</span>
+            <span class="brand-text">AI Crop Advisor</span>
+          </a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle color theme">
+            <span class="theme-icon" aria-hidden="true">🌙</span>
+            <span class="theme-text">Dark</span>
+          </button>
+        </nav>
+      </header>
+
+      <main id="main-content">
+        <!-- Hero section introducing the product -->
+        <section class="hero container" id="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Intelligent farming insights</p>
+            <h1>Recommend the right crop with confidence.</h1>
+            <p class="hero-text">
+              Blend soil chemistry, climate data, and machine learning to identify the most suitable crop
+              for every field.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#prediction-form">Predict Crop</a>
+              <a class="btn btn-secondary" href="#features">Explore Features</a>
+            </div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="visual-card">
+              <div class="ring ring-one"></div>
+              <div class="ring ring-two"></div>
+              <div class="visual-core">
+                <span>🌱</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="intro container">
+          <div class="intro-card">
+            <h2>Professional crop intelligence for modern agriculture</h2>
+            <p>
+              This interface brings a premium, user-friendly experience to your existing machine learning
+              recommendation pipeline while keeping the workflow simple and insightful.
+            </p>
+          </div>
+        </section>
+
+        <!-- Prediction interface -->
+        <section class="prediction-section container" id="prediction-form">
+          <div class="section-heading">
+            <p class="eyebrow">Prediction workspace</p>
+            <h2>Enter field conditions</h2>
+            <p>Provide the key soil and environmental values to generate a smart recommendation.</p>
+          </div>
+
+          <div class="prediction-card">
+            <form id="prediction-form-element" novalidate>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="nitrogen">Nitrogen (N)</label>
+                  <input id="nitrogen" name="nitrogen" type="number" step="0.1" min="0" max="250" placeholder="e.g. 48" required />
+                </div>
+                <div class="form-group">
+                  <label for="phosphorus">Phosphorus (P)</label>
+                  <input id="phosphorus" name="phosphorus" type="number" step="0.1" min="0" max="250" placeholder="e.g. 34" required />
+                </div>
+                <div class="form-group">
+                  <label for="potassium">Potassium (K)</label>
+                  <input id="potassium" name="potassium" type="number" step="0.1" min="0" max="250" placeholder="e.g. 42" required />
+                </div>
+                <div class="form-group">
+                  <label for="temperature">Temperature</label>
+                  <input id="temperature" name="temperature" type="number" step="0.1" min="-20" max="60" placeholder="e.g. 28" required />
+                </div>
+                <div class="form-group">
+                  <label for="humidity">Humidity</label>
+                  <input id="humidity" name="humidity" type="number" step="0.1" min="0" max="100" placeholder="e.g. 72" required />
+                </div>
+                <div class="form-group">
+                  <label for="ph">pH</label>
+                  <input id="ph" name="ph" type="number" step="0.1" min="0" max="14" placeholder="e.g. 6.7" required />
+                </div>
+                <div class="form-group full-width">
+                  <label for="rainfall">Rainfall</label>
+                  <input id="rainfall" name="rainfall" type="number" step="0.1" min="0" max="500" placeholder="e.g. 85" required />
+                </div>
+              </div>
+
+              <div class="form-footer">
+                <button class="btn btn-primary btn-large" id="predict-btn" type="submit">
+                  <span class="btn-label">Predict Crop</span>
+                  <span class="spinner" aria-hidden="true"></span>
+                </button>
+                <p class="form-hint">Your data will be sent to the connected prediction endpoint.</p>
+              </div>
+            </form>
+          </div>
+
+          <div class="result-card hidden" id="result-card" aria-live="polite">
+            <div class="result-icon" id="result-icon">🌿</div>
+            <div class="result-content">
+              <p class="result-label">Recommended Crop</p>
+              <h3 id="result-crop">—</h3>
+              <p id="result-message">Waiting for analysis.</p>
+              <div class="result-meta">
+                <span id="result-confidence">Confidence: —</span>
+              </div>
+              <button class="btn btn-secondary" id="reset-btn" type="button">Predict Again</button>
+            </div>
+          </div>
+
+          <div class="status-message" id="status-message" role="status"></div>
+        </section>
+
+        <!-- Feature highlights -->
+        <section class="features container" id="features">
+          <div class="section-heading">
+            <p class="eyebrow">Why it stands out</p>
+            <h2>Built to feel premium and practical</h2>
+          </div>
+          <div class="features-grid">
+            <article class="feature-card">
+              <div class="feature-icon">⚡</div>
+              <h3>Machine Learning Powered</h3>
+              <p>Leverages trained models to turn field data into meaningful crop suggestions.</p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">📈</div>
+              <h3>Fast Predictions</h3>
+              <p>Delivers recommendations quickly with a responsive, polished experience.</p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">🎯</div>
+              <h3>Accurate Recommendations</h3>
+              <p>Uses soil and weather indicators to improve crop matching and decision-making.</p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">🧩</div>
+              <h3>User Friendly Interface</h3>
+              <p>Clean layouts, thoughtful spacing, and clear flows make the system easy to use.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="container footer-inner">
+          <p>AI Crop Advisor</p>
+          <p>© 2026 Crafted for modern agriculture</p>
+          <p>Developed by Abdullah</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

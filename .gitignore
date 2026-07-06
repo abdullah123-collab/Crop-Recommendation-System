@@ -1,0 +1,27 @@
+# Python virtual environments
+.venv/
+venv/
+.venv311/
+
+# Python cache and bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter notebooks
+*.ipynb
+
+# Local environment files
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Model and data artifacts if you do not want to push them
+# Uncomment if needed:
+# models/
+# data/
+# backend/*.pkl
