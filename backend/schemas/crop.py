@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Dict, Any
 
 class PredictRequest(BaseModel):
     nitrogen: float = Field(..., ge=0, description="Nitrogen content in soil (N)")
@@ -13,5 +13,6 @@ class PredictRequest(BaseModel):
 class PredictResponse(BaseModel):
     recommended_crop: str
     confidence_score: float
-    message: str
-    top_3_predictions: List[str]
+    top_predictions: List[str]
+    soil_summary: Dict[str, Any] = Field(default_factory=dict)
+    fertilizer_recommendation: Dict[str, Any] = Field(default_factory=dict)

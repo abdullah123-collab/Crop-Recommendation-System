@@ -61,8 +61,9 @@ class CropService:
         return {
             "recommended_crop": predicted_crop,
             "confidence_score": confidence_score,
-            "message": f"Based on your soil and weather data, {predicted_crop} is the best fit.",
-            "top_3_predictions": top_predictions
+            "top_predictions": top_predictions,
+            "soil_summary": {},
+            "fertilizer_recommendation": {}
         }
 
 # Reusable crop_service instance

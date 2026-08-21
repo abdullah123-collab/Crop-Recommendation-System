@@ -41,3 +41,45 @@ def recommend_fertilizer(crop: str, N: float, P: float, K: float, ph: float) -> 
 
     fertilizers = list(dict.fromkeys(fertilizers))
     return {"fertilizers": fertilizers, "reasons": reasons}
+
+
+def analyze_soil(n: float, p: float, k: float, ph: float) -> dict:
+    """Categorize N, P, K values as 'low', 'medium', or 'high', and pH as 'acidic', 'neutral', or 'alkaline'."""
+    # Nitrogen (N) heuristics
+    if n < 50:
+        n_status = "low"
+    elif n <= 100:
+        n_status = "medium"
+    else:
+        n_status = "high"
+
+    # Phosphorus (P) heuristics
+    if p < 40:
+        p_status = "low"
+    elif p <= 80:
+        p_status = "medium"
+    else:
+        p_status = "high"
+
+    # Potassium (K) heuristics
+    if k < 40:
+        k_status = "low"
+    elif k <= 80:
+        k_status = "medium"
+    else:
+        k_status = "high"
+
+    # pH heuristics
+    if ph < 6.0:
+        ph_status = "acidic"
+    elif ph <= 7.5:
+        ph_status = "neutral"
+    else:
+        ph_status = "alkaline"
+
+    return {
+        "nitrogen": n_status,
+        "phosphorus": p_status,
+        "potassium": k_status,
+        "ph": ph_status
+    }
