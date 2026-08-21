@@ -28,3 +28,23 @@ def get_weather_data(city: str, api_key: str) -> dict:
         }
     except requests.exceptions.RequestException as exc:
         return {"error": f"Could not fetch weather: {exc}"}
+
+
+def fetch_weather_context(city: str):
+    """
+    Skeleton function for future context-based weather data retrieval.
+    
+    WARNING:
+    Live weather rainfall data (hourly or daily accumulations) MUST NOT be blindly fed into 
+    the crop recommendation model. The crop model is trained on long-term climate variables 
+    (annual average rainfall, typically 30-300mm), whereas a live weather API returns short-term 
+    precipitation (e.g., 2mm of rain in the last hour).
+    
+    Directly inputting live, transient daily/hourly rainfall into the model will result in severe 
+    out-of-distribution errors, causing the model to recommend crops suited for arid climates 
+    (since short-term rainfall is numerically much lower than annual averages). 
+    
+    Any future integration must map current weather data to regional/seasonal climatology 
+    context before running model inference.
+    """
+    pass
