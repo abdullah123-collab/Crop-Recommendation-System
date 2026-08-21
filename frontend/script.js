@@ -68,7 +68,7 @@ function validateInputs() {
 
 // Send the prediction payload to the connected FastAPI endpoint.
 async function predictCrop(payload) {
-  const response = await fetch('http://127.0.0.1:7860/api/predict', {
+  const response = await fetch('/api/crop/predict', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
