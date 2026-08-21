@@ -2,6 +2,7 @@ import joblib
 import numpy as np
 from pathlib import Path
 from backend.schemas.crop import PredictRequest
+from backend.utils.fertilizer import analyze_soil, get_fertilizer_suggestion
 
 class CropService:
     def __init__(self):
@@ -58,12 +59,21 @@ class CropService:
         # Calculate confidence using the highest probability
         confidence_score = round(float(probabilities[top_indices[0]]) * 100, 2)
         
+        # Perform soil analysis and generate fertilizer suggestions
+        soil_summary = analyze_soil(
+            payload.nitrogen,
+            payload.phosphorus,
+            payload.potassium,
+            payload.ph
+        )
+        fertilizer_recommendation = get_fertilizer_suggestion(soil_summary)
+        
         return {
             "recommended_crop": predicted_crop,
             "confidence_score": confidence_score,
             "top_predictions": top_predictions,
-            "soil_summary": {},
-            "fertilizer_recommendation": {}
+            "soil_summary": soil_summary,
+            "fertilizer_recommendation": fertilizer_recommendation
         }
 
 # Reusable crop_service instance
