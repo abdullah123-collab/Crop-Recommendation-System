@@ -83,3 +83,37 @@ def analyze_soil(n: float, p: float, k: float, ph: float) -> dict:
         "potassium": k_status,
         "ph": ph_status
     }
+
+
+def get_fertilizer_suggestion(soil_analysis: dict) -> dict:
+    """Generate general fertilizer suggestions based on soil nutrient categorization and pH."""
+    suggestions: List[str] = []
+    
+    n_status = soil_analysis.get("nitrogen")
+    p_status = soil_analysis.get("phosphorus")
+    k_status = soil_analysis.get("potassium")
+    ph_status = soil_analysis.get("ph")
+
+    if n_status == "low":
+        suggestions.append("Consider adding nitrogen-rich organic matter or nitrogen-based fertilizers to improve soil vigor.")
+    elif n_status == "high":
+        suggestions.append("Nitrogen levels are high. Avoid excess nitrogen application to prevent leggy growth or run-off.")
+
+    if p_status == "low":
+        suggestions.append("Apply a phosphorus supplement or bone meal to support strong root establishment and flowering.")
+
+    if k_status == "low":
+        suggestions.append("Consider applying potassium-based inputs (like potash) to boost overall plant disease resistance and water regulation.")
+
+    if ph_status == "acidic":
+        suggestions.append("Soil is acidic. Liming (dolomite or agricultural lime) may be used to raise the pH if the target crop requires neutral conditions.")
+    elif ph_status == "alkaline":
+        suggestions.append("Soil is alkaline. Adding organic matter or sulfur-based amendments can help gradually lower the pH.")
+
+    if not suggestions:
+        suggestions.append("Nutrient levels appear balanced. Maintain soil quality with routine compost or balanced organic maintenance blends.")
+
+    return {
+        "suggestions": suggestions,
+        "disclaimer": "These are general heuristics. Please consult a local agricultural expert before applying fertilizers."
+    }
