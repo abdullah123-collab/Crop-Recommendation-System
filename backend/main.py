@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from backend.api import crop_router
+from backend.utils.logger import logger
 
 # Resolve paths relative to the project root
 BASE_DIR = Path(__file__).resolve().parent
@@ -15,6 +16,7 @@ app = FastAPI(
     description="Refactored modular FastAPI backend for crop recommendations.",
     version="1.0.0",
 )
+logger.info("Application startup")
 
 # Register API Router
 app.include_router(crop_router, prefix="/api")
