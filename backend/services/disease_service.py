@@ -9,7 +9,8 @@ from backend.utils.logger import logger
 class DiseaseService:
     def __init__(self, model_path: Optional[str] = None) -> None:
         configured_path = model_path or CONFIG["DISEASE_MODEL_PATH"]
-        self.model_path = Path(configured_path)
+        path = Path(configured_path)
+        self.model_path = path if path.is_absolute() else Path(__file__).resolve().parents[2] / path
         self.model: Optional[Any] = None
 
     @property

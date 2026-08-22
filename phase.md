@@ -110,5 +110,30 @@ New:
 - [x] HTTP and general exception handlers return the required status codes and JSON structure.
 - [x] Existing crop prediction and static file routes remain unchanged.
 
+## Phase 3 — Disease Detection Architecture and Frontend (Completed)
+
+### Completed Requirements
+- [x] Added disease response schema and model-independent service architecture.
+- [x] Added `POST /api/disease/predict` with model-unavailable handling and no fake predictions.
+- [x] Added in-memory image upload validation for JPEG, PNG, and WebP files.
+- [x] Added image size protection, corrupt-image handling, and structured API errors.
+- [x] Added disease detection frontend with upload, drag-and-drop, preview, replace, remove, loading, and error states.
+- [x] Preserved crop recommendation and static frontend workflows.
+
+### Phase 3 Verification
+- [x] FastAPI imports and registers crop and disease routes.
+- [x] Invalid MIME type, corrupt images, oversized images, and missing files are handled safely.
+- [x] Disease model absence returns `MODEL_UNAVAILABLE` without fabricated results.
+- [x] Frontend uses relative API paths with no localhost API calls.
+
+## Phase 4 — Deployment Configuration (Completed)
+
+- [x] Docker binds to `0.0.0.0` and reads the `PORT` environment variable.
+- [x] Relative disease model paths resolve from the project root.
+- [x] README updated for the FastAPI, browser frontend, and disease-ready architecture.
+- [x] Required multipart upload dependency declared in `requirements.txt`.
+- [x] Crop regression verified: `rice`, `94.86%`, `rice`, `jute`, `pomegranate`.
+- [ ] Docker build and container verification remain untested because Docker is unavailable on the host.
+
 ## Next Phase
-Phase 3 will encompass UI/product redesign and eventually plant disease detection using deep learning (CNNs).
+The next phase will integrate a trained disease model without changing the established API contract.

@@ -1,8 +1,8 @@
-# 🌱 AI Crop Advisor
+# 🌱 AI Agriculture Advisor
 
-> An AI-powered crop recommendation application that uses machine learning to recommend suitable crops based on soil and environmental conditions.
+> An AI-powered agriculture advisor for crop recommendations and future plant disease detection.
 
-AI Crop Advisor combines a trained machine learning model with a **FastAPI backend** and a **Gradio-based interface** to provide an accessible crop recommendation workflow.
+AI Agriculture Advisor combines a trained crop recommendation model with a **FastAPI backend** and a browser-based frontend.
 
 The project preserves the existing machine learning pipeline and trained model artifacts while exposing the prediction system through an API and user interface.
 
@@ -13,7 +13,7 @@ The project preserves the existing machine learning pipeline and trained model a
 * 🌱 **Crop Recommendation** — Predict a suitable crop from soil and environmental parameters
 * 🤖 **Machine Learning Model** — Uses a trained ML model for crop prediction
 * ⚡ **FastAPI Backend** — Provides a prediction API for programmatic access
-* 🖥️ **Gradio Interface** — Provides a user-friendly interface for making predictions
+* 🩺 **Disease Detection Foundation** — Provides image upload and model-unavailable handling for the future disease model
 * 📊 **Data Processing** — Uses preprocessing components including a scaler and label encoder
 * 🔄 **Model Retraining** — Includes a training script for updating the model
 * 🐳 **Docker Support** — Includes a Docker configuration for containerized execution
@@ -57,7 +57,7 @@ The trained model receives the required soil/environmental inputs, applies the s
                                │
                                ▼
                     ┌─────────────────────┐
-                    │    Gradio UI        │
+                    │  Browser Frontend  │
                     └──────────┬──────────┘
                                │
                                ▼
@@ -169,24 +169,18 @@ backend/main.py
 The prediction API is available locally at:
 
 ```text
-http://127.0.0.1:7860/api/predict
+POST /api/crop/predict
+POST /api/disease/predict
+GET  /health
 ```
 
 The API allows the prediction functionality to be accessed independently from the user interface.
 
 ---
 
-## 🖥️ Gradio Interface
+## 🖥️ Browser Interface
 
-The application provides a Gradio-based interface for interacting with the crop recommendation system.
-
-After starting the application, the interface is available at:
-
-```text
-http://127.0.0.1:7860/
-```
-
-Users can provide the required input values and receive a crop recommendation through the interface.
+The frontend is served directly by FastAPI. It includes crop recommendation and a disease detection upload workflow. Disease analysis reports that the model is unavailable until a trained model is added; it never returns fabricated disease predictions.
 
 ---
 
@@ -231,7 +225,7 @@ uvicorn backend.main:app --reload --host 0.0.0.0 --port 7860
 
 ### 5. Open the Application
 
-Gradio interface:
+Browser interface:
 
 ```text
 http://127.0.0.1:7860/
@@ -240,7 +234,13 @@ http://127.0.0.1:7860/
 Prediction API:
 
 ```text
-http://127.0.0.1:7860/api/predict
+http://127.0.0.1:7860/api/crop/predict
+```
+
+Disease prediction API:
+
+```text
+http://127.0.0.1:7860/api/disease/predict
 ```
 
 ---
@@ -289,12 +289,12 @@ http://127.0.0.1:7860/
 
 The repository is structured for a **Docker-based Hugging Face Space**.
 
-The existing Docker configuration can be used for deployment, with the application running on port `7860`.
+The Docker configuration binds to `0.0.0.0` and uses the `PORT` environment variable, defaulting to `7860`.
 
 Application command:
 
 ```bash
-uvicorn backend.main:app --host 0.0.0.0 --port 7860
+uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-7860}
 ```
 
 ---
@@ -316,7 +316,7 @@ uvicorn backend.main:app --host 0.0.0.0 --port 7860
 
 ### Interface
 
-* Gradio
+* HTML, CSS, and JavaScript frontend
 
 ### Deployment
 
@@ -339,7 +339,7 @@ The current project includes:
 * Machine learning crop recommendation
 * Saved model artifacts
 * FastAPI prediction backend
-* Gradio interface
+* Disease detection upload architecture without fake predictions
 * Model retraining workflow
 * Docker support
 * Hugging Face Space configuration
@@ -379,6 +379,6 @@ This project is available under the license included in the repository.
 
 ## ⭐ About the Project
 
-AI Crop Advisor was developed as a practical machine learning project to explore the complete workflow from **data and model training to API-based prediction and deployment**.
+AI Agriculture Advisor was developed as a practical machine learning project to explore the complete workflow from **data and model training to API-based prediction and deployment**.
 
-The project demonstrates how a trained machine learning model can be transformed into an accessible application using **FastAPI, Gradio, Docker, and Hugging Face Spaces**.
+The project demonstrates how a trained machine learning model can be transformed into an accessible application using **FastAPI, a browser frontend, Docker, and Hugging Face Spaces**.
