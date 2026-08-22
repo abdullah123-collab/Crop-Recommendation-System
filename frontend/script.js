@@ -10,6 +10,18 @@ const statusMessage = document.getElementById('status-message');
 const themeToggle = document.querySelector('[data-theme-toggle]');
 const themeIcon = document.querySelector('.theme-icon');
 const themeText = document.querySelector('.theme-text');
+const diseaseForm = document.getElementById('disease-form');
+const diseaseFile = document.getElementById('disease-file');
+const uploadZone = document.getElementById('upload-zone');
+const imagePreviewWrap = document.getElementById('image-preview-wrap');
+const diseasePreview = document.getElementById('disease-preview');
+const replaceImageButton = document.getElementById('replace-image-btn');
+const removeImageButton = document.getElementById('remove-image-btn');
+const analyzeDiseaseButton = document.getElementById('analyze-disease-btn');
+const diseaseResult = document.getElementById('disease-result');
+const diseaseResultTitle = document.getElementById('disease-result-title');
+const diseaseResultMessage = document.getElementById('disease-result-message');
+const diseaseStatus = document.getElementById('disease-status');
 
 const STORAGE_KEY = 'ai-crop-theme';
 
@@ -31,6 +43,11 @@ function initializeTheme() {
 function showStatus(message, type = '') {
   statusMessage.textContent = message;
   statusMessage.className = `status-message ${type}`.trim();
+}
+
+function showDiseaseStatus(message, type = '') {
+  diseaseStatus.textContent = message;
+  diseaseStatus.className = `status-message ${type}`.trim();
 }
 
 function setLoading(isLoading) {
@@ -78,11 +95,118 @@ async function predictCrop(payload) {
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || 'Prediction request failed.');
+    throw new Error(errorData.error?.message || errorData.detail || 'Prediction request failed.');
   }
 
   return response.json();
 }
+
+let selectedDiseaseFile = null;
+let previewUrl = null;
+
+function setDiseaseFile(file) {
+  if (!file) {
+    return;
+  }
+
+  const supportedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  if (!supportedTypes.includes(file.type)) {
+    showDiseaseStatus('Please choose a JPEG, PNG, or WebP image.', 'error');
+    return;
+  }
+
+  selectedDiseaseFile = file;
+  if (previewUrl) {
+    URL.revokeObjectURL(previewUrl);
+  }
+  previewUrl = URL.createObjectURL(file);
+  diseasePreview.src = previewUrl;
+  uploadZone.classList.add('hidden');
+  imagePreviewWrap.classList.remove('hidden');
+  analyzeDiseaseButton.disabled = false;
+  diseaseResult.classList.add('hidden');
+  showDiseaseStatus('Image ready for analysis.');
+}
+
+function clearDiseaseFile() {
+  selectedDiseaseFile = null;
+  diseaseFile.value = '';
+  if (previewUrl) {
+    URL.revokeObjectURL(previewUrl);
+    previewUrl = null;
+  }
+  diseasePreview.removeAttribute('src');
+  uploadZone.classList.remove('hidden');
+  imagePreviewWrap.classList.add('hidden');
+  analyzeDiseaseButton.disabled = true;
+  diseaseResult.classList.add('hidden');
+  showDiseaseStatus('');
+}
+
+async function analyzeDisease() {
+  const response = await fetch('/api/disease/predict', {
+    method: 'POST',
+    body: (() => {
+      const formData = new FormData();
+      formData.append('file', selectedDiseaseFile);
+      return formData;
+    })()
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.error?.message || 'Disease analysis request failed.');
+  }
+  return data;
+}
+
+diseaseFile.addEventListener('change', () => setDiseaseFile(diseaseFile.files[0]));
+replaceImageButton.addEventListener('click', () => diseaseFile.click());
+removeImageButton.addEventListener('click', clearDiseaseFile);
+
+['dragenter', 'dragover'].forEach((eventName) => {
+  uploadZone.addEventListener(eventName, (event) => {
+    event.preventDefault();
+    uploadZone.classList.add('is-dragging');
+  });
+});
+
+['dragleave', 'drop'].forEach((eventName) => {
+  uploadZone.addEventListener(eventName, (event) => {
+    event.preventDefault();
+    uploadZone.classList.remove('is-dragging');
+  });
+});
+
+uploadZone.addEventListener('drop', (event) => setDiseaseFile(event.dataTransfer.files[0]));
+
+diseaseForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  if (!selectedDiseaseFile) {
+    showDiseaseStatus('Choose an image before analyzing.', 'error');
+    return;
+  }
+
+  analyzeDiseaseButton.disabled = true;
+  analyzeDiseaseButton.classList.add('is-loading');
+  showDiseaseStatus('Analyzing plant image…');
+
+  try {
+    const data = await analyzeDisease();
+    diseaseResultTitle.textContent = data.model_available ? data.disease : 'Analysis unavailable';
+    diseaseResultMessage.textContent = data.model_available
+      ? data.recommendation || 'Disease analysis complete.'
+      : data.error?.message || 'Disease analysis model is not available yet.';
+    diseaseResult.classList.remove('hidden');
+    showDiseaseStatus(data.model_available ? 'Analysis completed successfully.' : 'Model unavailable.', data.model_available ? 'success' : 'error');
+  } catch (error) {
+    diseaseResult.classList.add('hidden');
+    showDiseaseStatus(error.message || 'Disease analysis failed. Please try again.', 'error');
+  } finally {
+    analyzeDiseaseButton.disabled = false;
+    analyzeDiseaseButton.classList.remove('is-loading');
+  }
+});
 
 function resetResult() {
   resultCard.classList.add('hidden');
@@ -142,3 +266,4 @@ themeToggle.addEventListener('click', () => {
 
 initializeTheme();
 resetResult();
+clearDiseaseFile();

@@ -102,6 +102,25 @@ body[data-theme='dark'] .topbar {
   text-decoration: none;
 }
 
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-left: auto;
+  margin-right: 1.5rem;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.nav-links a:hover {
+  color: var(--primary-strong);
+}
+
 .brand-mark {
   display: grid;
   place-items: center;
@@ -420,6 +439,99 @@ input:focus {
   color: var(--primary-strong);
 }
 
+.disease-section {
+  padding: 1.2rem 0 4rem;
+}
+
+.disease-card,
+.disease-result {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 1.65rem;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(18px);
+}
+
+.disease-card {
+  padding: 2rem;
+}
+
+.upload-zone {
+  display: grid;
+  place-items: center;
+  gap: 0.55rem;
+  min-height: 15rem;
+  padding: 2rem;
+  border: 2px dashed var(--line);
+  border-radius: 1.2rem;
+  background: var(--surface-strong);
+  color: var(--muted);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+
+.upload-zone:hover,
+.upload-zone.is-dragging {
+  border-color: var(--primary);
+  background: rgba(47, 143, 95, 0.1);
+  transform: translateY(-2px);
+}
+
+.upload-zone.hidden,
+.hidden {
+  display: none;
+}
+
+.upload-icon {
+  font-size: 2rem;
+}
+
+.upload-title {
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.upload-hint {
+  font-size: 0.9rem;
+}
+
+.image-preview {
+  display: grid;
+  gap: 1rem;
+}
+
+.image-preview img {
+  width: 100%;
+  max-height: 22rem;
+  object-fit: contain;
+  border-radius: 1rem;
+  background: var(--surface-strong);
+}
+
+.image-preview-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.disease-result {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  animation: slideUp 0.5s ease;
+}
+
+.disease-result h3 {
+  margin: 0.3rem 0 0.5rem;
+}
+
+.disease-result p:last-child {
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
 .features-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -489,6 +601,10 @@ input:focus {
   .features-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .nav-links {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
@@ -501,7 +617,8 @@ input:focus {
   }
 
   .prediction-card,
-  .intro-card {
+  .intro-card,
+  .disease-card {
     padding: 1.3rem;
   }
 
@@ -517,5 +634,9 @@ input:focus {
 
   .footer-inner {
     flex-direction: column;
+  }
+
+  .image-preview-actions .btn {
+    flex: 1;
   }
 }
