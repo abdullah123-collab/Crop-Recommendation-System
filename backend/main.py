@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from backend.api import crop_router
+from backend.api.disease import router as disease_router
 from backend.utils.logger import logger
 
 # Resolve paths relative to the project root
@@ -50,6 +51,7 @@ async def general_exception_handler(request: Request, exc: Exception):
 
 # Register API Router
 app.include_router(crop_router, prefix="/api")
+app.include_router(disease_router, prefix="/api")
 
 # Define Health Check endpoint
 @app.get("/health")

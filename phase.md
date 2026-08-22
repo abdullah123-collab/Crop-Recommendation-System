@@ -28,7 +28,7 @@ The backend is refactored into modular packages to isolate concerns:
 1.  [`backend/main.py`](file:///I:/Abdullah/Work/Crop%20Recommendation%20System/backend/main.py) — Cleaned entrypoint; mounts crop API router, serves static assets from `/static` and handles `/health` and `/` routes.
 2.  [`frontend/index.html`](file:///I:/Abdullah/Work/Crop%20Recommendation%20System/frontend/index.html) — Stylesheet and script references prefixed with `/static`.
 3.  [`frontend/script.js`](file:///I:/Abdullah/Work/Crop%20Recommendation%20System/frontend/script.js) — Modified to call relative API path `/api/crop/predict` instead of hardcoded host.
-4.  [`requirements.txt`](file:///I:/Abdullah/Work/Crop%20Recommendation%20System/requirements.txt) — Added `huggingface_hub<1.0.0` and `Pillow>=10.0.0` dependencies.
+4.  [`requirements.txt`](file:///I:/Abdullah/Work/Crop%20Recommendation%20System/requirements.txt) — Removed the obsolete Gradio and Hugging Face dependencies and added `python-dotenv`.
 
 ## Gradio Removal
 All Gradio code (`gr.Blocks`, `gr.mount_gradio_app`, `gradio_predict`) has been removed from the backend. The Gradio UI is no longer served.
@@ -93,5 +93,22 @@ New:
 ## Known Issues
 *   Docker build could not be verified locally because the Docker CLI is not installed on this system. However, the existing `Dockerfile` remains configuration-wise compatible with the new modular entrypoint.
 
+## Phase 2 — Requirements Management and Backend Foundations (Completed)
+
+### Completed Requirements
+- [x] Removed obsolete `gradio` and `huggingface_hub` dependencies.
+- [x] Added `python-dotenv` to support environment-based configuration.
+- [x] Added `backend/utils/config.py` to load environment variables safely, with `ENVIRONMENT` defaulting to `development`.
+- [x] Added `backend/utils/logger.py` with standard application and error logging.
+- [x] Added a non-sensitive `Application startup` log when FastAPI initializes.
+- [x] Added unified FastAPI handlers for `HTTPException` and unexpected exceptions.
+- [x] Standardized API error responses as `{success: false, error: {code, message}}`.
+
+### Phase 2 Verification
+- [x] Configuration module compiles and has no editor diagnostics.
+- [x] Logger imports and supports error-level logging.
+- [x] HTTP and general exception handlers return the required status codes and JSON structure.
+- [x] Existing crop prediction and static file routes remain unchanged.
+
 ## Next Phase
-The next phase (Phase 2) will encompass UI/product redesign and eventually plant disease detection using deep learning (CNNs).
+Phase 3 will encompass UI/product redesign and eventually plant disease detection using deep learning (CNNs).
