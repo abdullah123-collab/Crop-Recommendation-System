@@ -1,6 +1,6 @@
 from pathlib import Path
-from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from backend.api import crop_router
@@ -17,6 +17,36 @@ app = FastAPI(
     version="1.0.0",
 )
 logger.info("Application startup")
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "success": False,
+            "error": {
+                "code": "HTTP_EXCEPTION",
+                "message": str(exc.detail),
+            },
+        },
+    )
+
+
+@app.exception_handler(Exception)
+async def general_exception_handler(request: Request, exc: Exception):
+    logger.error("Unhandled application error")
+    return JSONResponse(
+        status_code=500,
+        content={
+            "success": False,
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "An unexpected error occurred.",
+            },
+        },
+    )
+
 
 # Register API Router
 app.include_router(crop_router, prefix="/api")
